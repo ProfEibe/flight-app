@@ -42,6 +42,10 @@ export const APP_ROUTES: Routes = [
         loadComponent: () => loadRemoteModule('checkin', './Component'),
       },
       {
+        path: 'luggage',
+        loadChildren: () => loadRemoteModule('luggage', './routes'),
+      },
+      {
         path: 'about',
         component: AboutComponent,
       },
