@@ -13,7 +13,7 @@ import { APP_ROUTES } from './app/app.routes';
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    provideRouter(APP_ROUTES),
+    provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
     importProvidersFrom(MatDialogModule),
   ],
 });
