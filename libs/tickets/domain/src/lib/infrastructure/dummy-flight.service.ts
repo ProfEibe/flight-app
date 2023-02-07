@@ -21,4 +21,8 @@ export class DummyFlightService implements FlightService {
       { id: 9, from: 'here', to: 'there', date, delayed: false },
     ]);
   }
+
+  save(flight: Flight): Observable<Flight> {
+    return of(flight);
+  }
 }

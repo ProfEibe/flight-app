@@ -12,12 +12,16 @@ import { APP_ROUTES } from './app/app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
     importProvidersFrom(MatDialogModule),
+    importProvidersFrom(MatSnackBarModule),
+    provideAnimations(),
 
     provideStore(),
     provideEffects(),

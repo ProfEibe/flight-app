@@ -1,4 +1,4 @@
-import { Flight } from '../entities/flight';
+import { Flight, initFlight } from '../entities/flight';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { ticketsActions, ticketsApiActions } from './actions';
 import { Passenger } from '../entities/passenger';
@@ -15,6 +15,7 @@ export type FlightTicketState = Omit<FlightTicket, 'passenger' | 'flight'> & {
 
 export interface TicketsState {
   flights: Flight[];
+  flightToEdit: Flight;
   basket: unknown;
   hide: number[];
 
@@ -27,6 +28,7 @@ export interface TicketsState {
 
 export const initialState: TicketsState = {
   flights: [],
+  flightToEdit: initFlight,
   basket: {},
   hide: [679, 680],
 
@@ -64,6 +66,13 @@ export const ticketsFeature = createFeature({
       return {
         ...state,
         flights,
+      };
+    }),
+    on(ticketsApiActions.flightLoaded, (state, { flight }) => {
+      const flightToEdit = flight;
+      return {
+        ...state,
+        flightToEdit,
       };
     }),
     on(ticketsActions.clearFlights, (state) => {
