@@ -1,5 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { ticketsFeature } from './reducer';
+import { FlightTicket } from '../entities/flight-ticket';
+import { Passenger } from '../entities/passenger';
 
 export const selectFilteredFlights = createSelector(
   ticketsFeature.selectFlights,
@@ -11,3 +13,29 @@ export const selectFilteredFlightsWithParams = (hide: number[]) =>
   createSelector(ticketsFeature.selectFlights, (flights) =>
     flights.filter((f) => !hide.includes(f.id))
   );
+
+export const selectTicketsWithPassengers = createSelector(
+  ticketsFeature.selectFlightTicketIds,
+  ticketsFeature.selectFlightTickets,
+  ticketsFeature.selectPassengers,
+  (ids, tickets, passengers) =>
+    ids.map((id) => {
+      const ticket = tickets[id];
+      const passenger = passengers[ticket.passengerId];
+      return { ...ticket, passenger } as FlightTicket;
+    })
+);
+
+export const selectPassengersWithTickets = createSelector(
+  ticketsFeature.selectPassengerIds,
+  ticketsFeature.selectPassengers,
+  ticketsFeature.selectFlightTickets,
+  (ids, passengers, tickets) =>
+    ids.map((id) => {
+      const passenger = passengers[id];
+      const ticketList = passenger.ticketIds.map(
+        (ticketId) => tickets[ticketId]
+      );
+      return { ...passenger, tickets: ticketList } as Passenger;
+    })
+);
