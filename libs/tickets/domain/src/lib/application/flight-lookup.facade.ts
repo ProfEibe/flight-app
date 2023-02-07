@@ -39,13 +39,10 @@ export class FlightLookupFacade {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  readonly flights$ = combineLatest({
-    input: this.input$,
-    online: this.online$,
-  }).pipe(
-    filter((combined) => combined.online),
+  readonly flights$ = combineLatest([this.input$, this.online$]).pipe(
+    filter(([, online]) => online),
     tap(() => this.loadingSubject.next(true)),
-    switchMap((combined) => this.load(combined.input)),
+    switchMap(([input]) => this.load(input)),
     tap(() => this.loadingSubject.next(false))
   );
 
