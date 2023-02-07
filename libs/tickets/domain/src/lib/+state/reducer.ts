@@ -1,6 +1,6 @@
 import { Flight } from '../entities/flight';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { ticketsActions } from './actions';
+import { ticketsActions, ticketsApiActions } from './actions';
 import { Passenger } from '../entities/passenger';
 import { FlightTicket } from '../entities/flight-ticket';
 
@@ -49,7 +49,7 @@ export const ticketsFeature = createFeature({
   name: 'tickets',
   reducer: createReducer(
     initialState,
-    on(ticketsActions.flightsLoaded, (state, { flights }) => {
+    on(ticketsApiActions.flightsLoaded, (state, { flights }) => {
       return {
         ...state,
         flights,

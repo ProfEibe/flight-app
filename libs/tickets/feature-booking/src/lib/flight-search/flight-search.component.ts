@@ -5,7 +5,6 @@ import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { CityPipe } from '@flight-demo/shared/ui-common';
 import {
   Flight,
-  FlightService,
   selectFilteredFlightsWithParams,
   ticketsActions,
 } from '@flight-demo/tickets/domain';
@@ -20,7 +19,6 @@ import { first } from 'rxjs';
   imports: [CommonModule, FormsModule, CityPipe, FlightCardComponent],
 })
 export class FlightSearchComponent {
-  private readonly flightService = inject(FlightService);
   private readonly store = inject(Store);
 
   flights$ = this.store.select(selectFilteredFlightsWithParams([679, 680]));
@@ -42,14 +40,9 @@ export class FlightSearchComponent {
     // Reset properties
     this.selectedFlight = undefined;
 
-    this.flightService.find(this.from, this.to).subscribe({
-      next: (flights) => {
-        this.store.dispatch(ticketsActions.flightsLoaded({ flights }));
-      },
-      error: (errResp) => {
-        console.error('Error loading flights', errResp);
-      },
-    });
+    this.store.dispatch(
+      ticketsActions.loadFlights({ from: this.from, to: this.to })
+    );
   }
 
   select(f: Flight): void {
