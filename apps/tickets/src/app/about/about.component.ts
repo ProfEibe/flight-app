@@ -9,3 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./about.component.css'],
 })
 export class AboutComponent {}
+
+export default AboutComponent;

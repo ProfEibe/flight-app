@@ -1,13 +1,6 @@
-import { loadRemoteModule } from '@angular-architects/module-federation';
-import {
-  startsWith,
-  WebComponentWrapper,
-  WebComponentWrapperOptions,
-} from '@angular-architects/module-federation-tools';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { ConfigService } from '@flight-demo/shared/util-config';
-import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
@@ -88,6 +81,9 @@ export const APP_ROUTES: Routes = [
           import('@flight-demo/tickets/feature-booking').then(
             (m) => m.FLIGHT_BOOKING_ROUTES
           ),
+        data: {
+          preload: true,
+        },
       },
       {
         path: 'next-flights',
@@ -98,7 +94,7 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'about',
-        component: AboutComponent,
+        loadComponent: () => import('./about/about.component'),
       },
 
       // This _needs_ to be the last route!!
